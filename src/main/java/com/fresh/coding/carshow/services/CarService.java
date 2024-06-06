@@ -27,4 +27,6 @@ public interface CarService {
     Paginate<List<CarWithImageSummarized>> paginateCars(Integer page, Integer perPage);
 
     Paginate<List<CarWithImageSummarized>> findCarsByTypeAndExcludeId(String type, Long id, Integer page, Integer perPage);
+
+    CarSummarized modifyStatusCarById(Long id, String status);
 }

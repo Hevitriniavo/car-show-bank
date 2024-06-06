@@ -119,6 +119,14 @@ public class CarServiceImpl implements CarService {
         return getListPaginate(carsPage);
     }
 
+    @Override
+    public CarSummarized modifyStatusCarById(Long id, String status) {
+        var car = carRepository.findById(id).orElseThrow(() -> new NotFoundException("Car not found"));
+        car.setStatus(CarStatus.valueOf(status));
+        var savedCar = carRepository.save(car);
+        return carMapper.toResponse(savedCar);
+    }
+
     private Paginate<List<CarWithImageSummarized>> getListPaginate(Page<Car> carsPage) {
         var items = carsPage.getContent().stream().map(car -> {
             var images = imageRepository.findByCar_Id(car.getId())

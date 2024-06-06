@@ -30,6 +30,11 @@ public class CarRestController {
         return carService.modifyCarById(id, carRequest);
     }
 
+    @PatchMapping("/{id}/status/{status}")
+    public CarSummarized patchStatusCar(@PathVariable Long id, @PathVariable String status) {
+        return carService.modifyStatusCarById(id, status);
+    }
+
     @DeleteMapping("/{id}")
     public CarSummarized deleteCar(@PathVariable Long id) {
         return carService.deleteCarById(id);
