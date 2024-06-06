@@ -58,6 +58,12 @@ public class CarSearchServiceImpl implements CarSearchService {
     }
 
     @Override
+    public List<CarWithImageSummarized> findCars(String brand, String model, String name, String type, Long priceMin, Long priceMax) {
+        var res = carRepository.findCarsWithCriteria(brand, model, name, type, priceMin, priceMax);
+        return mapCarsToResponse(res);
+    }
+
+    @Override
     public List<CarWithImageSummarized> findCarWithImagesByIntervalPrice(Long minPrice, Long maxPrice) {
         List<Car> cars;
         if (minPrice != null && maxPrice != null) {

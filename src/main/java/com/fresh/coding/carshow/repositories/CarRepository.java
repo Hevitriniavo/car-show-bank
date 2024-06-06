@@ -28,6 +28,23 @@ public interface CarRepository extends JpaRepository<Car, Long> {
     @Query("SELECT c FROM Car c WHERE c.type = :type AND c.id <> :id")
     Page<Car> findAllByTypeAndExcludeId(@Param("type") String type, @Param("id") Long id, Pageable pageable);
 
+    @Query("""
+        SELECT c FROM Car c
+        WHERE LOWER(c.brand) = LOWER(:brand)
+          AND LOWER(c.model) = LOWER(:model)
+          AND LOWER(c.name) = LOWER(:name)
+          AND LOWER(c.type) = LOWER(:type)
+          AND c.price BETWEEN :priceMin AND :priceMax
+      """)
+    List<Car> findCarsWithCriteria(
+            @Param("brand") String brand,
+            @Param("model") String model,
+            @Param("name") String name,
+            @Param("type") String type,
+            @Param("priceMin") Long priceMin,
+            @Param("priceMax") Long priceMax
+    );
+
 
     List<Car> findAllByModelContainingIgnoreCase(String model);
 

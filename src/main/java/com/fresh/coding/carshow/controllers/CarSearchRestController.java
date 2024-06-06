@@ -58,4 +58,14 @@ public class CarSearchRestController {
         );
     }
 
+    @GetMapping("/search")
+    public List<CarWithImageSummarized> searchCars(
+            @RequestParam String brand,
+            @RequestParam String model,
+            @RequestParam String name,
+            @RequestParam String type,
+            @RequestParam Long priceMin,
+            @RequestParam Long priceMax) {
+        return carSearchService.findCars(brand, model, name, type, priceMin, priceMax);
+    }
 }
