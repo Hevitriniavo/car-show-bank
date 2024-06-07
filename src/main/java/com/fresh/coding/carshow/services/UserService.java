@@ -1,12 +1,13 @@
 package com.fresh.coding.carshow.services;
 
 import com.fresh.coding.carshow.dtos.requests.UserRequest;
+import com.fresh.coding.carshow.dtos.responses.Paginate;
 import com.fresh.coding.carshow.dtos.responses.UserSummarized;
 
 import java.util.List;
 
 public interface UserService {
-    List<UserSummarized> findAllUsers();
+    Paginate<List<UserSummarized>> findAllUsers(Integer page, Integer perPage);
 
     UserSummarized updateUser(Long id, UserRequest userRequest);
 

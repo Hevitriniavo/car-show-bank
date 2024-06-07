@@ -3,6 +3,7 @@ package com.fresh.coding.carshow.controllers;
 import com.fresh.coding.carshow.dtos.requests.AppointmentRequest;
 import com.fresh.coding.carshow.dtos.requests.UpdateStatus;
 import com.fresh.coding.carshow.dtos.responses.AppointmentSummarized;
+import com.fresh.coding.carshow.dtos.responses.Paginate;
 import com.fresh.coding.carshow.enums.AppointmentStatus;
 import com.fresh.coding.carshow.services.AppointmentService;
 import jakarta.validation.Valid;
@@ -24,8 +25,11 @@ public class AppointmentRestController {
     }
 
     @GetMapping
-    public List<AppointmentSummarized> getAllAppointments() {
-        return appointmentService.findAllAppointments();
+    public Paginate<List<AppointmentSummarized>> getAllAppointments(
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "10") Integer perPage
+    ) {
+        return appointmentService.findAllAppointments(page, perPage);
     }
 
     @GetMapping("/{id}")
@@ -40,13 +44,21 @@ public class AppointmentRestController {
     }
 
     @GetMapping("/status/{status}")
-    public List<AppointmentSummarized> getAllAppointmentByStatus(@PathVariable String status) {
-        return appointmentService.findAllAppointmentByStatus(AppointmentStatus.valueOf(status));
+    public Paginate<List<AppointmentSummarized>> getAllAppointmentByStatus(
+            @PathVariable String status,
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "10") Integer perPage
+    ) {
+        return appointmentService.findAllAppointmentByStatus(AppointmentStatus.valueOf(status), page, perPage);
     }
 
 
     @GetMapping("/status-not-equals/{status}")
-    public List<AppointmentSummarized> getAllByStatusNotEquals(@PathVariable String status) {
-        return appointmentService.findAllByStatusNotEquals(AppointmentStatus.valueOf(status));
+    public Paginate<List<AppointmentSummarized>> getAllByStatusNotEquals(
+            @PathVariable String status,
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "10") Integer perPage
+    ) {
+        return appointmentService.findAllByStatusNotEquals(AppointmentStatus.valueOf(status), page, perPage);
     }
 }

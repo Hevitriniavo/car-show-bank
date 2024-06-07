@@ -1,12 +1,18 @@
 package com.fresh.coding.carshow.services.impl;
 
 import com.fresh.coding.carshow.dtos.requests.UserRequest;
+import com.fresh.coding.carshow.dtos.responses.AppointmentSummarized;
+import com.fresh.coding.carshow.dtos.responses.Paginate;
 import com.fresh.coding.carshow.dtos.responses.UserSummarized;
+import com.fresh.coding.carshow.entities.Appointment;
+import com.fresh.coding.carshow.entities.User;
 import com.fresh.coding.carshow.exceptions.NotFoundException;
 import com.fresh.coding.carshow.mappers.UserMapper;
 import com.fresh.coding.carshow.repositories.UserRepository;
 import com.fresh.coding.carshow.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +27,9 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public List<UserSummarized> findAllUsers() {
-        return userRepository.findAll().stream().map(userMapper::toResponse).toList();
+    public Paginate<List<UserSummarized>> findAllUsers(Integer page, Integer perPage) {
+        var pageRequest = PageRequest.of(page - 1, perPage);
+        return getListPaginate(userRepository.findAll(pageRequest));
     }
 
     @Override
@@ -46,5 +53,15 @@ public class UserServiceImpl implements UserService {
         var user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
         userRepository.deleteById(id);
         return userMapper.toResponse(user);
+    }
+
+    private Paginate<List<UserSummarized>> getListPaginate(Page<User> users) {
+        var items = users.getContent().stream().map(userMapper::toResponse).toList();
+        return new Paginate<>(
+                items,
+                users.getNumber(),
+                users.getTotalPages(),
+                users.getTotalElements()
+        );
     }
 }

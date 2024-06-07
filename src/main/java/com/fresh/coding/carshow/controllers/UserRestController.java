@@ -1,6 +1,7 @@
 package com.fresh.coding.carshow.controllers;
 
 import com.fresh.coding.carshow.dtos.requests.UserRequest;
+import com.fresh.coding.carshow.dtos.responses.Paginate;
 import com.fresh.coding.carshow.dtos.responses.UserSummarized;
 import com.fresh.coding.carshow.services.UserService;
 import jakarta.validation.Valid;
@@ -16,9 +17,11 @@ public class UserRestController {
     private final UserService userService;
 
     @GetMapping
-    public List<UserSummarized> getAllUsers(
+    public Paginate<List<UserSummarized>> getAllUsers(
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "10") Integer perPage
     ) {
-        return userService.findAllUsers();
+        return userService.findAllUsers(page, perPage);
     }
 
     @GetMapping("/{id}")

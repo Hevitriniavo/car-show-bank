@@ -2,6 +2,8 @@ package com.fresh.coding.carshow.services.impl;
 
 import com.fresh.coding.carshow.dtos.requests.AppointmentRequest;
 import com.fresh.coding.carshow.dtos.responses.AppointmentSummarized;
+import com.fresh.coding.carshow.dtos.responses.Paginate;
+import com.fresh.coding.carshow.entities.Appointment;
 import com.fresh.coding.carshow.enums.AppointmentStatus;
 import com.fresh.coding.carshow.exceptions.NotFoundException;
 import com.fresh.coding.carshow.mappers.AppointmentMapper;
@@ -9,10 +11,11 @@ import com.fresh.coding.carshow.repositories.AppointmentRepository;
 import com.fresh.coding.carshow.repositories.CarRepository;
 import com.fresh.coding.carshow.services.AppointmentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -47,23 +50,30 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<AppointmentSummarized> findAllAppointmentByStatus(AppointmentStatus status) {
-        return appointmentRepository.findByStatus(status)
-                .stream().map(appointmentMapper::toResponse)
-                .collect(Collectors.toList());
+    public Paginate<List<AppointmentSummarized>> findAllAppointmentByStatus(AppointmentStatus status, Integer page, Integer perPage) {
+        var pageRequest = PageRequest.of(page - 1, perPage);
+        return getListPaginate(appointmentRepository.findByStatus(status, pageRequest));
     }
 
     @Override
-    public List<AppointmentSummarized> findAllByStatusNotEquals(AppointmentStatus status) {
-        return appointmentRepository.findAllByStatusNotEquals(status)
-                .stream().map(appointmentMapper::toResponse)
-                .collect(Collectors.toList());
+    public Paginate<List<AppointmentSummarized>> findAllByStatusNotEquals(AppointmentStatus status, Integer page, Integer perPage) {
+        var pageRequest = PageRequest.of(page - 1, perPage);
+        return this.getListPaginate(appointmentRepository.findAllByStatusNotEquals(status, pageRequest));
     }
 
     @Override
-    public List<AppointmentSummarized> findAllAppointments() {
-        return appointmentRepository.findAll()
-                .stream().map(appointmentMapper::toResponse)
-                .collect(Collectors.toList());
+    public Paginate<List<AppointmentSummarized>> findAllAppointments(Integer page, Integer perPage) {
+        var pageRequest = PageRequest.of(page - 1, perPage);
+        return this.getListPaginate(appointmentRepository.findAll(pageRequest));
+    }
+
+    private Paginate<List<AppointmentSummarized>> getListPaginate(Page<Appointment> appointments) {
+        var items = appointments.getContent().stream().map(appointmentMapper::toResponse).toList();
+        return new Paginate<>(
+                items,
+                appointments.getNumber(),
+                appointments.getTotalPages(),
+                appointments.getTotalElements()
+        );
     }
 }
