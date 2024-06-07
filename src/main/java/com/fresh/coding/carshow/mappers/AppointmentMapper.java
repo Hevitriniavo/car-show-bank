@@ -6,6 +6,10 @@ import com.fresh.coding.carshow.entities.Appointment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
 @Component
 @RequiredArgsConstructor
 public class AppointmentMapper {
@@ -33,10 +37,15 @@ public class AppointmentMapper {
                 appointment.getEmail(),
                 appointment.getMessage(),
                 appointment.getContact(),
-                appointment.getAppointmentDate(),
+                formatInstant(appointment.getAppointmentDate()),
                 appointment.getStatus(),
                 carMapper.toResponse(appointment.getCar())
         );
     }
 
+    public  String formatInstant(Instant instant) {
+        var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        var defaultZone = ZoneId.systemDefault();
+        return formatter.format(instant.atZone(defaultZone));
+    }
 }

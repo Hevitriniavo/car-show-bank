@@ -27,7 +27,6 @@ public class Appointment implements Serializable {
 
     private String firstName;
 
-    @Column(unique = true)
     private String email;
 
     @Column(columnDefinition = "TEXT")

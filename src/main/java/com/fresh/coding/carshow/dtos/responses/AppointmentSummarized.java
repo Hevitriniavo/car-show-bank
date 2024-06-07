@@ -11,7 +11,7 @@ public record AppointmentSummarized(
         String email,
         String message,
         String contact,
-        Instant appointmentDate,
+        String appointmentDate,
         AppointmentStatus status,
         CarSummarized car
 ) {

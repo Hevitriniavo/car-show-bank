@@ -1,6 +1,7 @@
 package com.fresh.coding.carshow.controllers;
 
 import com.fresh.coding.carshow.dtos.requests.AppointmentRequest;
+import com.fresh.coding.carshow.dtos.requests.UpdateStatus;
 import com.fresh.coding.carshow.dtos.responses.AppointmentSummarized;
 import com.fresh.coding.carshow.services.AppointmentService;
 import jakarta.validation.Valid;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,8 +32,8 @@ public class AppointmentRestController {
         return appointmentService.findAppointment(id);
     }
 
-    @PatchMapping("/{id}/{status}")
-    public AppointmentSummarized updateStatusAppointment(@PathVariable Long id, @PathVariable String status) {
-        return appointmentService.updateStatusAppointment(id, status);
+    @PostMapping("/{id}")
+    public AppointmentSummarized updateStatusAppointment(@PathVariable Long id, @RequestBody UpdateStatus status) {
+        return appointmentService.updateStatusAppointment(id, status.appointmentStatus().name());
     }
 }
