@@ -40,13 +40,13 @@ public class AppointmentRestController {
     }
 
     @GetMapping("/status/{status}")
-    public List<AppointmentSummarized> getAllAppointmentByStatus(@PathVariable AppointmentStatus status) {
-        return appointmentService.findAllAppointmentByStatus(status);
+    public List<AppointmentSummarized> getAllAppointmentByStatus(@PathVariable String status) {
+        return appointmentService.findAllAppointmentByStatus(AppointmentStatus.valueOf(status));
     }
 
 
     @GetMapping("/status-not-equals/{status}")
-    public List<AppointmentSummarized> getAllByStatusNotEquals(@PathVariable AppointmentStatus status) {
-        return appointmentService.findAllByStatusNotEquals(status);
+    public List<AppointmentSummarized> getAllByStatusNotEquals(@PathVariable String status) {
+        return appointmentService.findAllByStatusNotEquals(AppointmentStatus.valueOf(status));
     }
 }
