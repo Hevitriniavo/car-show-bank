@@ -32,7 +32,7 @@ public class AppointmentRestController {
         return appointmentService.findAppointment(id);
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public AppointmentSummarized updateStatusAppointment(@PathVariable Long id, @RequestBody UpdateStatus status) {
         return appointmentService.updateStatusAppointment(id, status.appointmentStatus().name());
     }
