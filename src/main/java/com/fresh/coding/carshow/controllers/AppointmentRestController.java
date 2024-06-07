@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -45,4 +44,9 @@ public class AppointmentRestController {
         return appointmentService.findAllAppointmentByStatus(status);
     }
 
+
+    @GetMapping("/status-not-equals/{status}")
+    public List<AppointmentSummarized> getAllByStatusNotEquals(@PathVariable AppointmentStatus status) {
+        return appointmentService.findAllByStatusNotEquals(status);
+    }
 }

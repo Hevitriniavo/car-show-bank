@@ -54,6 +54,13 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    public List<AppointmentSummarized> findAllByStatusNotEquals(AppointmentStatus status) {
+        return appointmentRepository.findAllByStatusNotEquals(status)
+                .stream().map(appointmentMapper::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<AppointmentSummarized> findAllAppointments() {
         return appointmentRepository.findAll()
                 .stream().map(appointmentMapper::toResponse)
