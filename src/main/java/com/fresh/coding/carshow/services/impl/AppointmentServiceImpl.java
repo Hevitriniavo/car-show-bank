@@ -47,6 +47,13 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    public List<AppointmentSummarized> findAllAppointmentByStatus(AppointmentStatus status) {
+        return appointmentRepository.findByStatus(status)
+                .stream().map(appointmentMapper::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<AppointmentSummarized> findAllAppointments() {
         return appointmentRepository.findAll()
                 .stream().map(appointmentMapper::toResponse)
