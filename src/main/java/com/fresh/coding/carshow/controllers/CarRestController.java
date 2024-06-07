@@ -4,10 +4,16 @@ import com.fresh.coding.carshow.dtos.requests.CarRequest;
 import com.fresh.coding.carshow.dtos.responses.CarSummarized;
 import com.fresh.coding.carshow.dtos.responses.CarWithImageSummarized;
 import com.fresh.coding.carshow.dtos.responses.Paginate;
+import com.fresh.coding.carshow.enums.CarStatus;
 import com.fresh.coding.carshow.services.CarService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -82,4 +88,23 @@ public class CarRestController {
         return carService.findCarsByTypeAndExcludeId(type, id, Integer.valueOf(page), Integer.valueOf(perPage));
     }
 
+
+    @PostMapping("/images")
+    public CarWithImageSummarized createCarWithImage(
+            @RequestParam @NotBlank String name,
+            @RequestParam @NotBlank String description,
+            @RequestParam @NotBlank String brand,
+            @RequestParam @NotBlank String model,
+            @RequestParam @NotNull Long price,
+            @RequestParam @NotBlank String color,
+            @RequestParam @NotBlank String motorType,
+            @RequestParam @NotBlank String type,
+            @RequestParam @NotNull @Min(0) Integer power,
+            @RequestParam @NotNull @Size(min = 1) String placeNumber,
+            @RequestParam @NotNull String status,
+            @RequestParam MultipartFile[] files
+    ){
+        var carRequest = new CarRequest(null, name, description, brand, model, price, color, motorType, type, power, placeNumber,  CarStatus.valueOf(status));
+        return carService.createCarWithImage(carRequest, files);
+    }
 }

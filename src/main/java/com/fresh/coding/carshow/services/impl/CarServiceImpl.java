@@ -5,6 +5,7 @@ import com.fresh.coding.carshow.dtos.responses.CarSummarized;
 import com.fresh.coding.carshow.dtos.responses.CarWithImageSummarized;
 import com.fresh.coding.carshow.dtos.responses.Paginate;
 import com.fresh.coding.carshow.entities.Car;
+import com.fresh.coding.carshow.entities.Image;
 import com.fresh.coding.carshow.enums.CarStatus;
 import com.fresh.coding.carshow.exceptions.NotFoundException;
 import com.fresh.coding.carshow.files.FileService;
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,6 +127,22 @@ public class CarServiceImpl implements CarService {
         car.setStatus(CarStatus.valueOf(status));
         var savedCar = carRepository.save(car);
         return carMapper.toResponse(savedCar);
+    }
+
+    @org.springframework.transaction.annotation.Transactional
+    @Override
+    public CarWithImageSummarized createCarWithImage(CarRequest carRequest, MultipartFile[] files) {
+        var car = carMapper.toEntity(carRequest);
+        var saved = carRepository.save(car);
+        var toCreates = new ArrayList<Image>();
+        for (var file : files) {
+            var url = fileService.saveFile(file);
+            var image = Image.builder().url(url).car(car).build();
+            toCreates.add(image);
+        }
+        var savedImages = imageRepository.saveAll(toCreates);
+        var images = savedImages.stream().map(imageMapper::toResponse).collect(Collectors.toList());
+        return  carMapper.toResponse(saved, images);
     }
 
     private Paginate<List<CarWithImageSummarized>> getListPaginate(Page<Car> carsPage) {

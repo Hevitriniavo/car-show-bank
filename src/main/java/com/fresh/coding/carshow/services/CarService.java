@@ -4,6 +4,7 @@ import com.fresh.coding.carshow.dtos.requests.CarRequest;
 import com.fresh.coding.carshow.dtos.responses.CarSummarized;
 import com.fresh.coding.carshow.dtos.responses.CarWithImageSummarized;
 import com.fresh.coding.carshow.dtos.responses.Paginate;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -29,4 +30,6 @@ public interface CarService {
     Paginate<List<CarWithImageSummarized>> findCarsByTypeAndExcludeId(String type, Long id, Integer page, Integer perPage);
 
     CarSummarized modifyStatusCarById(Long id, String status);
+
+    CarWithImageSummarized createCarWithImage(CarRequest carRequest, MultipartFile[] files);
 }
