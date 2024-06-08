@@ -23,7 +23,7 @@ public class CarRestController {
 
     private final CarService carService;
 
-    @PostMapping
+    @PostMapping("/no-images")
     public List<CarSummarized> createAllCars(
             @RequestBody
             List<@Valid CarRequest> carRequests) {
@@ -88,7 +88,7 @@ public class CarRestController {
     }
 
 
-    @PostMapping("/images")
+    @PostMapping
     public CarWithImageSummarized createCarWithImage(
             @RequestParam @NotBlank String name,
             @RequestParam @NotBlank String description,
@@ -101,8 +101,8 @@ public class CarRestController {
             @RequestParam @NotNull String power,
             @RequestParam @NotNull @Size(min = 1) String placeNumber,
             @RequestParam @NotNull String status,
-            @RequestParam MultipartFile[] files
-    ){
+            @RequestParam(name = "images") MultipartFile[] files
+    ){  
         var carRequest = new CarRequest(null, name, description, brand, model, Long.valueOf(price), color, motorType, type, Integer.valueOf(power), placeNumber,  CarStatus.valueOf(status));
         return carService.createCarWithImage(carRequest, files);
     }
