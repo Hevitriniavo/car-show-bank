@@ -87,7 +87,10 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public List<String> findAllColorsOfCars() {
-        return carRepository.findAllColors();
+        return carRepository.findAllColors().stream()
+                .map(String::toLowerCase)
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     @Override
