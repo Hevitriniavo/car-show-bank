@@ -25,6 +25,9 @@ public interface CarRepository extends JpaRepository<Car, Long> {
     @Query("SELECT DISTINCT c.type FROM Car c")
     List<String> findAllTypeOfCars();
 
+    @Query("SELECT DISTINCT c.color FROM Car c")
+    List<String> findAllColors();
+
     @Query("SELECT c FROM Car c WHERE c.type = :type AND c.id <> :id")
     Page<Car> findAllByTypeAndExcludeId(@Param("type") String type, @Param("id") Long id, Pageable pageable);
 

@@ -60,6 +60,12 @@ public class CarRestController {
         return carService.findAllBrandOfCars(Integer.valueOf(limit));
     }
 
+    @GetMapping("/color")
+    public List<String> getAllColorOfCars() {
+        return carService.findAllColorsOfCars();
+    }
+
+
     @GetMapping("/type-motor")
     public List<String> getAllMotorTypeOfCars() {
         return carService.findAllMotorTypeOfCars();

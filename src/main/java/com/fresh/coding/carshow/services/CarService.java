@@ -25,6 +25,7 @@ public interface CarService {
 
     CarSummarized deleteCarById(Long id);
 
+    List<String> findAllColorsOfCars();
     Paginate<List<CarWithImageSummarized>> paginateCars(Integer page, Integer perPage);
 
     Paginate<List<CarWithImageSummarized>> findCarsByTypeAndExcludeId(String type, Long id, Integer page, Integer perPage);

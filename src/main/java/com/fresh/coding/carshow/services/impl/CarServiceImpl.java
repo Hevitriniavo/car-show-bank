@@ -86,6 +86,11 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    public List<String> findAllColorsOfCars() {
+        return carRepository.findAllColors();
+    }
+
+    @Override
     public CarSummarized modifyCarById(Long id, CarRequest carRequest) {
         var car = carRepository.findById(id).orElseThrow(() -> new NotFoundException("Car not found"));
         var newCar = carMapper.toEntity(carRequest);
