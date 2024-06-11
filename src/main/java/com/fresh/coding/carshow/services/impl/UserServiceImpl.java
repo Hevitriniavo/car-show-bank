@@ -1,10 +1,8 @@
 package com.fresh.coding.carshow.services.impl;
 
 import com.fresh.coding.carshow.dtos.requests.UserRequest;
-import com.fresh.coding.carshow.dtos.responses.AppointmentSummarized;
 import com.fresh.coding.carshow.dtos.responses.Paginate;
 import com.fresh.coding.carshow.dtos.responses.UserSummarized;
-import com.fresh.coding.carshow.entities.Appointment;
 import com.fresh.coding.carshow.entities.User;
 import com.fresh.coding.carshow.exceptions.NotFoundException;
 import com.fresh.coding.carshow.mappers.UserMapper;

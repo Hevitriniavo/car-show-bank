@@ -62,10 +62,13 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public List<String> findAllBrandOfCars(Integer limit) {
-        var page = PageRequest.of(0, limit);
-        return carRepository.findAllBrand(page).getContent();
+    public List<String> findAllBrandOfCars() {
+        return carRepository.findAllBrandOfCars().stream()
+                .map(String::toLowerCase)
+                .distinct()
+                .collect(Collectors.toList());
     }
+
 
     @Override
     public List<CarSummarized> findAllCarByStatusPinned(Integer limit) {
@@ -77,12 +80,20 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public List<String> findAllMotorTypeOfCars() {
-        return carRepository.findAllMotorTypeOfCars();
+        return carRepository.findAllMotorTypeOfCars()
+                .stream()
+                .map(String::toLowerCase)
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<String> findAllTypeOfCars() {
-        return carRepository.findAllTypeOfCars();
+        return carRepository.findAllTypeOfCars()
+                .stream()
+                .map(String::toLowerCase)
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -150,7 +161,25 @@ public class CarServiceImpl implements CarService {
         }
         var savedImages = imageRepository.saveAll(toCreates);
         var images = savedImages.stream().map(imageMapper::toResponse).collect(Collectors.toList());
-        return  carMapper.toResponse(saved, images);
+        return carMapper.toResponse(saved, images);
+    }
+
+    @Override
+    public List<String> findAllPowerOfCars() {
+        return carRepository.findAllPowerOfCars()
+                .stream()
+                .map(String::toLowerCase)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> findAllModelOfCars() {
+        return carRepository.findAllModelOfCars()
+                .stream()
+                .map(String::toLowerCase)
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     private Paginate<List<CarWithImageSummarized>> getListPaginate(Page<Car> carsPage) {

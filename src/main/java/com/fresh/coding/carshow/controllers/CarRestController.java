@@ -54,10 +54,8 @@ public class CarRestController {
     }
 
     @GetMapping("/brand")
-    public List<String> getAllBrandOfCars(
-            @RequestParam(defaultValue = "6") String limit
-    ) {
-        return carService.findAllBrandOfCars(Integer.valueOf(limit));
+    public List<String> getAllBrandOfCars() {
+        return carService.findAllBrandOfCars();
     }
 
     @GetMapping("/color")
@@ -69,6 +67,16 @@ public class CarRestController {
     @GetMapping("/type-motor")
     public List<String> getAllMotorTypeOfCars() {
         return carService.findAllMotorTypeOfCars();
+    }
+
+    @GetMapping("/model")
+    public List<String> getAllModelOfCars() {
+        return carService.findAllModelOfCars();
+    }
+
+    @GetMapping("/power")
+    public List<String> getAllPowerOfCars() {
+        return carService.findAllPowerOfCars();
     }
 
     @GetMapping("/type")
@@ -108,8 +116,8 @@ public class CarRestController {
             @RequestParam @NotNull @Size(min = 1) String placeNumber,
             @RequestParam @NotNull String status,
             @RequestParam(name = "images") MultipartFile[] files
-    ){  
-        var carRequest = new CarRequest(null, name, description, brand, model, Long.valueOf(price), color, motorType, type, Integer.valueOf(power), placeNumber,  CarStatus.valueOf(status));
+    ) {
+        var carRequest = new CarRequest(null, name, description, brand, model, Long.valueOf(price), color, motorType, type, Integer.valueOf(power), placeNumber, CarStatus.valueOf(status));
         return carService.createCarWithImage(carRequest, files);
     }
 }

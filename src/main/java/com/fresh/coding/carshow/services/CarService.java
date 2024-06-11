@@ -13,7 +13,7 @@ public interface CarService {
 
     List<CarWithImageSummarized> findAllCars();
 
-    List<String> findAllBrandOfCars(Integer limit);
+    List<String> findAllBrandOfCars();
 
     List<CarSummarized> findAllCarByStatusPinned(Integer limit);
 
@@ -26,6 +26,7 @@ public interface CarService {
     CarSummarized deleteCarById(Long id);
 
     List<String> findAllColorsOfCars();
+
     Paginate<List<CarWithImageSummarized>> paginateCars(Integer page, Integer perPage);
 
     Paginate<List<CarWithImageSummarized>> findCarsByTypeAndExcludeId(String type, Long id, Integer page, Integer perPage);
@@ -33,4 +34,8 @@ public interface CarService {
     CarSummarized modifyStatusCarById(Long id, String status);
 
     CarWithImageSummarized createCarWithImage(CarRequest carRequest, MultipartFile[] files);
+
+    List<String> findAllPowerOfCars();
+
+    List<String> findAllModelOfCars();
 }

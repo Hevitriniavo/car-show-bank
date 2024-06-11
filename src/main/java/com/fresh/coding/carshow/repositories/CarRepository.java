@@ -14,8 +14,6 @@ import java.util.List;
 
 @Repository
 public interface CarRepository extends JpaRepository<Car, Long> {
-    @Query("SELECT DISTINCT c.brand FROM Car c")
-    Page<String> findAllBrand(Pageable pageable);
 
     Page<Car> findByStatus(CarStatus status, Pageable pageable);
 
@@ -33,13 +31,13 @@ public interface CarRepository extends JpaRepository<Car, Long> {
 
 
     @Query("""
-            SELECT c FROM Car c
-            WHERE LOWER(c.brand) LIKE LOWER(CONCAT('%', :brand, '%'))
-              AND LOWER(c.model) LIKE LOWER(CONCAT('%', :model, '%'))
-              AND LOWER(c.name) LIKE LOWER(CONCAT('%', :name, '%'))
-              AND LOWER(c.type) LIKE LOWER(CONCAT('%', :type, '%'))
-              AND c.price BETWEEN :priceMin AND :priceMax
-          """)
+              SELECT c FROM Car c
+              WHERE LOWER(c.brand) LIKE LOWER(CONCAT('%', :brand, '%'))
+                AND LOWER(c.model) LIKE LOWER(CONCAT('%', :model, '%'))
+                AND LOWER(c.name) LIKE LOWER(CONCAT('%', :name, '%'))
+                AND LOWER(c.type) LIKE LOWER(CONCAT('%', :type, '%'))
+                AND c.price BETWEEN :priceMin AND :priceMax
+            """)
     List<Car> findCarsWithCriteria(
             @Param("brand") String brand,
             @Param("model") String model,
@@ -65,4 +63,13 @@ public interface CarRepository extends JpaRepository<Car, Long> {
     List<Car> findAllByPriceGreaterThanEqual(Long price);
 
     List<Car> findAllByPriceLessThanEqual(Long price);
+
+    @Query("SELECT DISTINCT c.brand FROM Car c")
+    List<String> findAllBrandOfCars();
+
+    @Query("SELECT DISTINCT c.model FROM Car c")
+    List<String> findAllModelOfCars();
+
+    @Query("SELECT DISTINCT c.power FROM Car c")
+    List<String> findAllPowerOfCars();
 }

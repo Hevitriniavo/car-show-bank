@@ -43,7 +43,7 @@ public class AppointmentMapper {
         );
     }
 
-    public  String formatInstant(Instant instant) {
+    public String formatInstant(Instant instant) {
         var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         var defaultZone = ZoneId.systemDefault();
         return formatter.format(instant.atZone(defaultZone));
