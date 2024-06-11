@@ -53,14 +53,14 @@ public class CarRestController {
         return carService.paginateCars(Integer.valueOf(page), Integer.valueOf(perPage));
     }
 
-    @GetMapping("/brand")
-    public List<String> getAllBrandOfCars() {
-        return carService.findAllBrandOfCars();
-    }
-
     @GetMapping("/color")
     public List<String> getAllColorOfCars() {
         return carService.findAllColorsOfCars();
+    }
+
+    @GetMapping("/brand")
+    public List<String> getAllBrandOfCars() {
+        return carService.findAllBrandOfCars();
     }
 
 
